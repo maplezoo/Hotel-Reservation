@@ -20,6 +20,7 @@ public class CustomerService {
         if(!customers.containsKey(email)) {
             Customer newCustomer = new Customer(firstName, lastName, email);
             customers.put(newCustomer.getEmail(), newCustomer);
+            System.out.println("New account created: " + newCustomer);
         } else {
             System.out.println("Email is already taken!");
         }
@@ -29,7 +30,7 @@ public class CustomerService {
         return customers.get(customerEmail);
     }
 
-    public Collection<Customer> getAllCustomers() {
+    public static Collection<Customer> getAllCustomers() {
         return (Collection<Customer>) customers;
         }
     }

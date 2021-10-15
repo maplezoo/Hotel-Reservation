@@ -1,9 +1,9 @@
 package mode1;
 
-import java.util.Map;
+
 import java.util.regex.Pattern;
 
-public class Customer implements Map<String, Customer> {
+public class Customer {
     String firstName;
     String lastName;
     String email;

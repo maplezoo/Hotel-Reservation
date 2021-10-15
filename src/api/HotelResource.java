@@ -9,11 +9,10 @@ import service.ReservationService;
 import java.util.Collection;
 import java.util.Date;
 
-import static service.CustomerService.getCustomer;
-
 public class HotelResource {
     private static HotelResource hotelResource;
-
+    public static CustomerService customerService = CustomerService.getCustomerService();
+    public static ReservationService reservationService = ReservationService.getReservationService();
 
     public static HotelResource getHotelResource() {
         if (hotelResource == null) {
@@ -24,11 +23,11 @@ public class HotelResource {
     }
 
     public Customer getCustomer(String email) {
-       return getCustomer(email);
+       return customerService.getCustomer(email);
     }
 
     public void createACustomer (String email, String firstName, String lastName){
-        CustomerService.addCustomer(email, firstName,lastName);
+        customerService.addCustomer(email, firstName,lastName);
     }
 
     public IRoom getRoom(String roomNumber){
@@ -36,11 +35,11 @@ public class HotelResource {
     }
 
     public Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate){
-        return ReservationService.reserveARoom(getCustomer(customerEmail), room, checkInDate, checkOutDate);
+        return reservationService.reserveARoom(getCustomer(customerEmail), room, checkInDate, checkOutDate);
     }
 
-    public Collection<Reservation> getCustomersReservation(String customerEmail){
-        return ReservationService.getCustomerReservation(getCustomer(customerEmail))
+    public Collection<Reservation> getCustomersReservations(String customerEmail){
+        return ReservationService.getCustomerReservation(getCustomer(customerEmail));
     }
 
     public Collection<IRoom> findARoom(Date checkInDate, Date checkOutDate){

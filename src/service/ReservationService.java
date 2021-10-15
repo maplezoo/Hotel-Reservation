@@ -19,13 +19,12 @@ public class ReservationService {
 
     public static void addRoom (String roomNumber, Double price, RoomType roomType){
         if (roomList.contains(getARoom(roomNumber))) {
-            System.out.println("This room number already exists. The room can not be created.");
+            System.out.println("Room number" + roomNumber + "already exists. The room can not be created.");
         } else {
             Room room = new Room(roomNumber, price, roomType);
             roomList.add(room);
             System.out.println("The room was successfully added to our room list.");
         }
-
     }
 
     public static IRoom getARoom (String roomId){
@@ -37,6 +36,9 @@ public class ReservationService {
         return null;
     }
 
+    public static Collection<IRoom> getAllRooms(){
+        return roomList;
+    }
 
     public static Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
         Reservation reserved = new Reservation(customer, room, checkInDate, checkOutDate);
@@ -80,6 +82,9 @@ public class ReservationService {
     }
 
     public static void printAllReservations() {
+        if (setOfReservations.isEmpty()){
+            System.out.println("No Reservation in the database.");
+        }
         for (Reservation reservation: setOfReservations){
             System.out.println(reservation);
         }
