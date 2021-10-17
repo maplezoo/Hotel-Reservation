@@ -30,8 +30,9 @@ public class CustomerService {
         return customers.get(customerEmail);
     }
 
-    public static Collection<Customer> getAllCustomers() {
-        return (Collection<Customer>) customers;
+    public static Map<String, Customer> getAllCustomers() {
+        return (Map<String, Customer>) customers;
         }
-    }
+}
+
 

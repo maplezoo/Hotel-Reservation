@@ -163,13 +163,15 @@ public class AdminMenu {
     }
 
     private void seeAllCustomers(){
-        Collection<Customer> allCustomers;
+        Map<String, Customer> allCustomers;
         allCustomers = adminResource.getAllCustomers();
+        int i = 1;
         if (allCustomers.isEmpty()){
             System.out.println("No customer in the database.");
         }else{
-            for (Customer c: allCustomers){
-                System.out.println(c.toString());
+            for (Map.Entry customer : allCustomers.entrySet()){
+                System.out.println("Customer " + i + " -- " + customer.getValue());
+                i++;
             }
         }
     }

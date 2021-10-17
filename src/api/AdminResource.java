@@ -8,6 +8,7 @@ import service.ReservationService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class AdminResource {
     private static AdminResource adminResource;
@@ -36,7 +37,7 @@ public class AdminResource {
         return reservationService.getAllRooms();
     }
 
-    public Collection<Customer> getAllCustomers(){
+    public Map<String, Customer> getAllCustomers(){
         return customerService.getAllCustomers();
     }
 
