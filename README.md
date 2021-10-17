@@ -2,7 +2,7 @@
 
 This is a `java` application for booking hotel rooms which I developed for the Udacity's [Java Programming Course](https://www.udacity.com/course/java-programming-nanodegree--nd079).
 The goal was to create a hotel application which allows users to book and manage room reservations.
-The project emphasizes the use of Java programming language for practicing and elevating fundamental skills as a Java developer.
+The project emphasizes the use of using OOP, organize and process data with collections, and use common Java types for practicing and elevating fundamental skills as a Java developer.
 
 You may run the project by executing the [HotelApplication](https://github.com/zeevolution/hotel-reservation/blob/master/src/HotelApplication.java) class
 on your favorite Java IDEA.
