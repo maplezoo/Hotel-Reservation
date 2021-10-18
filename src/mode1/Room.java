@@ -1,17 +1,23 @@
 package mode1;
 
+import java.util.Objects;
+
 public class Room implements IRoom{
-    String roomNumber;
-    Double price;
-    RoomType enumeration;
+    private String roomNumber;
+    private Double price;
+    private RoomType type;
 
     public Room(String n, Double p, RoomType enumeration){
         this.roomNumber = n;
         this.price = p;
-        this.enumeration = enumeration;
+        this.type = enumeration;
     }
 
     public Room(String roomNumber, RoomType enumeration) {
+    }
+
+    public void setPrice(double p) {
+        this.price = p;
     }
 
     @Override
@@ -26,7 +32,7 @@ public class Room implements IRoom{
 
     @Override
     public RoomType getRoomType() {
-        return enumeration;
+        return type;
     }
 
     @Override
@@ -36,6 +42,37 @@ public class Room implements IRoom{
 
     @Override
     public String toString(){
-        return "Room: " + roomNumber + "; Room Type: " + enumeration + ", Price: $" + price;
+        return "Room: " + roomNumber + "; Room Type: " + type + ", Price: $" + price;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this)
+            return true;
+        if (!(o instanceof IRoom))
+            return false;
+        IRoom other = (IRoom) o;
+        boolean numberEquals = (this.roomNumber == null && other.getRoomNumber() == null)
+                || (this.roomNumber != null && this.roomNumber.equals(other.getRoomNumber()));
+        boolean priceEquals = (this.price == null && other.getRoomPrice() == null)
+                || (this.price != null && this.price.equals(other.getRoomPrice()));
+        boolean typeEquals = (this.type == null && other.getRoomType() == null)
+                || (this.type != null && this.type.equals(other.getRoomType()));
+        return numberEquals && priceEquals && typeEquals;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        if (roomNumber != null) {
+            result = 31 * result + roomNumber.hashCode();
+        }
+        if (price != null) {
+            result = 31 * result + price.hashCode();
+        }
+        if (type != null) {
+            result = 31 * result + type.hashCode();
+        }
+        return result;
     }
 }

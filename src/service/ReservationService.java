@@ -2,13 +2,17 @@ package service;
 
 import mode1.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ReservationService {
     private static ReservationService reservationService;
     private static List<IRoom> roomList = new ArrayList<>();
-    private static Set<Reservation> setOfReservations = new HashSet<Reservation>();
+    private static Collection<Reservation> setOfReservations = new HashSet<Reservation>();
 
+    private ReservationService(){}
+    
     public static ReservationService getReservationService() {
         if (reservationService == null) {
             System.out.println("RESERVATION SERVICE: NULL");
@@ -17,7 +21,7 @@ public class ReservationService {
         return reservationService;
     }
 
-    public static void addRoom (String roomNumber, Double price, RoomType roomType){
+    public void addRoom (String roomNumber, Double price, RoomType roomType){
         if (roomList.contains(getARoom(roomNumber))) {
             System.out.println("Room number" + roomNumber + "already exists. The room can not be created.");
         } else {
@@ -27,7 +31,7 @@ public class ReservationService {
         }
     }
 
-    public static IRoom getARoom (String roomId){
+    public IRoom getARoom (String roomId){
         for (IRoom room: roomList){
             if (room.getRoomNumber().equals(roomId)){
                 return room;
@@ -36,41 +40,52 @@ public class ReservationService {
         return null;
     }
 
-    public static Collection<IRoom> getAllRooms(){
+    public Collection<IRoom> getAllRooms(){
         return roomList;
     }
 
-    public static Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
+    public void reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
         Reservation reserved = new Reservation(customer, room, checkInDate, checkOutDate);
         setOfReservations.add(reserved);
-        return reserved;
+        System.out.println(reserved);
     }
 
-    public static Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate){
-        Collection<IRoom> availableRooms = new LinkedHashSet<>();
+    /**The customer can not reserve 2 room in the same range of time*/
+    //private boolean doubleReserveCustomer(Customer customer, Date checkInDate, Date checkOutDate){
+    //    boolean result = false;
+    //    for (Reservation r: getCustomerReservation(customer)){
+    //        if (r.getCheckInDate().before(checkOutDate) && r.getCheckOutDate().after(checkInDate)){
+    //            result = true;
+    //            break;
+    //        }
+    //    }
+    //    return result;
+    //}
+
+
+    public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
+        Collection<IRoom> availableRooms = new HashSet<>();
+        availableRooms.clear();
 
         if (setOfReservations.size() == 0) {
             availableRooms = roomList;
         } else {
-            for (IRoom room: roomList){
-                for (Reservation reserved: setOfReservations){
-                    if (((room.getRoomNumber().equals(reserved.getRoom().getRoomNumber()))) &&
-                    (checkInDate.after(reserved.getCheckOutDate())) &&
-                            (checkOutDate.before(reserved.getCheckInDate()))){
+            for (Reservation reserved : setOfReservations) {
+                for (IRoom room : roomList) {
+                    boolean sameNumber = room.getRoomNumber().equals(reserved.getRoom().getRoomNumber());
+                    boolean noConflictDate = !((checkInDate.before(reserved.getCheckOutDate()))
+                            && (checkOutDate.after(reserved.getCheckInDate())));
+
+                    if ((sameNumber && noConflictDate) || (!(sameNumber))) {
                         availableRooms.add(room);
-                    } else{
-                        if (room.getRoomNumber().equals(reserved.getRoom().getRoomNumber())) {
-                            availableRooms.remove(room);
                     }
                 }
             }
         }
-    }
-        System.out.println(availableRooms);
         return availableRooms;
     }
 
-    public static Collection<Reservation> getCustomerReservation(Customer customer){
+    public Collection<Reservation> getCustomerReservation(Customer customer){
         Collection<Reservation> reservationRecord = new ArrayList<>();
 
         for (Reservation reservation: setOfReservations){
@@ -81,7 +96,7 @@ public class ReservationService {
         return reservationRecord;
     }
 
-    public static void printAllReservations() {
+    public void printAllReservations() {
         if (setOfReservations.isEmpty()){
             System.out.println("No Reservation in the database.");
         }
@@ -89,5 +104,4 @@ public class ReservationService {
             System.out.println(reservation);
         }
     }
-
 }

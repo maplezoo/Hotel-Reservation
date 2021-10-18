@@ -59,24 +59,40 @@ public class AdminMenu {
     private void addARoom() {
         List<IRoom> roomList = new ArrayList<>();
         boolean keepAdding = true;
-        String yesNo = null;
         while (keepAdding){
             String roomNumber = getRoomNumber();
             Double roomPrice = getRoomPrice();
             RoomType roomType = getRoomType();
             Room newRoom = new Room(roomNumber, roomPrice, roomType);
             roomList.add(newRoom);
+            if (!addMore()){
+                keepAdding = false;
+            };
+        }
+        adminResource.addRoom(roomList);
+    }
+
+    private boolean addMore(){
+        boolean yesNo = false;
+        boolean validateInput = false;
+        while (!validateInput){
             try{
+
                 System.out.println("Would you like to add another room? y/n");
-                yesNo = input.nextLine();
-                if (yesNo.equals("n")){
-                    keepAdding = false;
+                String userInput = input.nextLine();
+                if (userInput.equals("n")){
+                    yesNo = false;
+                }else if(userInput.equals("y")){
+                    yesNo = true;
+                } else{
+                    throw new Exception();
                 }
+                validateInput = true;
             }catch (Exception ex){
                 System.out.println("Error - Invalid Input\n");
             }
         }
-        adminResource.addRoom(roomList);
+        return yesNo;
     }
 
     private String getRoomNumber(){

@@ -8,6 +8,8 @@ public class CustomerService {
     private static CustomerService customerService;
     private static Map<String, Customer> customers = new HashMap<>();
 
+    private CustomerService(){}
+
     public static CustomerService getCustomerService() {
         if (customerService == null) {
             System.out.println("CUSTOMER SERVICE: NULL");

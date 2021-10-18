@@ -2,7 +2,6 @@ package api;
 
 import mode1.Customer;
 import mode1.IRoom;
-import mode1.Reservation;
 import service.CustomerService;
 import service.ReservationService;
 
@@ -12,8 +11,8 @@ import java.util.Map;
 
 public class AdminResource {
     private static AdminResource adminResource;
-    public static CustomerService customerService = CustomerService.getCustomerService();
-    public static ReservationService reservationService = ReservationService.getReservationService();
+    private static CustomerService customerService = CustomerService.getCustomerService();
+    private static ReservationService reservationService = ReservationService.getReservationService();
 
     public static AdminResource getReservationService() {
         if (adminResource == null) {
@@ -24,7 +23,7 @@ public class AdminResource {
     }
 
     public Customer getCustomer(String email){
-        return CustomerService.getCustomer(email);
+        return customerService.getCustomer(email);
     }
 
     public void addRoom(List<IRoom> rooms){

@@ -31,19 +31,19 @@ public class HotelResource {
     }
 
     public IRoom getRoom(String roomNumber){
-        return ReservationService.getARoom(roomNumber);
+        return reservationService.getARoom(roomNumber);
     }
 
-    public Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate){
-        return reservationService.reserveARoom(getCustomer(customerEmail), room, checkInDate, checkOutDate);
+    public void bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate){
+        reservationService.reserveARoom(getCustomer(customerEmail), room, checkInDate, checkOutDate);
     }
 
     public Collection<Reservation> getCustomersReservations(String customerEmail){
-        return ReservationService.getCustomerReservation(getCustomer(customerEmail));
+        return reservationService.getCustomerReservation(getCustomer(customerEmail));
     }
 
     public Collection<IRoom> findARoom(Date checkInDate, Date checkOutDate){
-        return ReservationService.findRooms(checkInDate, checkOutDate);
+        return reservationService.findRooms(checkInDate, checkOutDate);
     }
 
 }
