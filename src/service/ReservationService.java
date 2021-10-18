@@ -12,7 +12,7 @@ public class ReservationService {
     private static Collection<Reservation> setOfReservations = new HashSet<Reservation>();
 
     private ReservationService(){}
-    
+
     public static ReservationService getReservationService() {
         if (reservationService == null) {
             System.out.println("RESERVATION SERVICE: NULL");
