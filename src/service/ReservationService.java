@@ -50,19 +50,6 @@ public class ReservationService {
         System.out.println(reserved);
     }
 
-    /**The customer can not reserve 2 room in the same range of time*/
-    //private boolean doubleReserveCustomer(Customer customer, Date checkInDate, Date checkOutDate){
-    //    boolean result = false;
-    //    for (Reservation r: getCustomerReservation(customer)){
-    //        if (r.getCheckInDate().before(checkOutDate) && r.getCheckOutDate().after(checkInDate)){
-    //            result = true;
-    //            break;
-    //        }
-    //    }
-    //    return result;
-    //}
-
-
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
         Collection<IRoom> availableRooms = new HashSet<>();
         availableRooms.clear();
@@ -75,15 +62,23 @@ public class ReservationService {
                     boolean sameNumber = room.getRoomNumber().equals(reserved.getRoom().getRoomNumber());
                     boolean noConflictDate = !((checkInDate.before(reserved.getCheckOutDate()))
                             && (checkOutDate.after(reserved.getCheckInDate())));
-
                     if ((sameNumber && noConflictDate) || (!(sameNumber))) {
                         availableRooms.add(room);
                     }
                 }
             }
         }
-        return availableRooms;
+        return checkInDate, checkInDate, availableRooms;
     }
+
+    public Collection<IRoom> recommendRooms(Date checkInDate, Date checkOutDate) {
+        Calendar rCheckin = Calendar.getInstance();
+        Calendar rCheckout = Calendar.getInstance();
+
+
+    }
+
+
 
     public Collection<Reservation> getCustomerReservation(Customer customer){
         Collection<Reservation> reservationRecord = new ArrayList<>();
