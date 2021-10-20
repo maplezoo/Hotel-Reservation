@@ -52,33 +52,44 @@ public class ReservationService {
 
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
         Collection<IRoom> availableRooms = new HashSet<>();
-        availableRooms.clear();
 
-        if (setOfReservations.size() == 0) {
-            availableRooms = roomList;
-        } else {
-            for (Reservation reserved : setOfReservations) {
-                for (IRoom room : roomList) {
-                    boolean sameNumber = room.getRoomNumber().equals(reserved.getRoom().getRoomNumber());
-                    boolean noConflictDate = !((checkInDate.before(reserved.getCheckOutDate()))
-                            && (checkOutDate.after(reserved.getCheckInDate())));
-                    if ((sameNumber && noConflictDate) || (!(sameNumber))) {
-                        availableRooms.add(room);
-                    }
+        for (IRoom room : roomList){
+            if (!isRoomReserved(room, checkInDate, checkOutDate)){
+                availableRooms.add(room);
+            }
+        }
+        return availableRooms;
+    }
+
+    private boolean isRoomReserved(IRoom room, Date checkin, Date checkout){
+        //if no reservations have been made, then this room is empty
+        if (setOfReservations.isEmpty()){
+            return false;
+        }
+
+        for (Reservation reservation : setOfReservations){
+            /**
+             * if the current room has been reserved, we need to check if the new date range
+             * overlaps with the reserved range
+             * if yes -> then the room is not free
+             * if no -> then the room is free
+             */
+            if (reservation.getRoom().getRoomNumber().equals(room.getRoomNumber())){
+                /**
+                 * Lets say there is a reservation on room with
+                 * The room if free with between checkin - checkout
+                 * if checkout will occur before reservation checkin
+                 * or if checkin will occur after reservation checkout
+                 */
+                boolean noOverLapp = (checkin.after(reservation.getCheckOutDate()) || checkout.before(reservation.getCheckInDate()));
+
+                if (!noOverLapp){
+                    return true;
                 }
             }
         }
-        return checkInDate, checkInDate, availableRooms;
+        return false;
     }
-
-    public Collection<IRoom> recommendRooms(Date checkInDate, Date checkOutDate) {
-        Calendar rCheckin = Calendar.getInstance();
-        Calendar rCheckout = Calendar.getInstance();
-
-
-    }
-
-
 
     public Collection<Reservation> getCustomerReservation(Customer customer){
         Collection<Reservation> reservationRecord = new ArrayList<>();
